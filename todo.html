@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>To-Do List</title>
+  <style>
+    .border{
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 2s ease forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    } 
+
+    body {
+      /* background-image: url('https://miro.medium.com/v2/resize:fit:1400/1*h9vTq1CLpSsuwe4Azn-LYw.jpeg');  */
+      background-color: #f2f2f2;
+      
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      min-height: 100vh;
+      display: flex; 
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+    }
+
+    #content {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #taskList {
+      list-style-type: none;
+      margin-bottom: 20px;
+      font-size: 30px; 
+      
+      
+    }
+
+
+
+
+    .add {
+    padding: 5px 10px;
+    background-color: #2b9c14;
+    color: white;
+    border: none;
+    cursor: pointer;
+    width: 150px;
+    height: 25px;
+    border-radius: 30px;
+    
+
+    
+   
+}
+.add:hover{
+  background-color: rgb(146, 39, 39);
+}
+.delete{
+  padding: 5px 10px;
+    background-color: rgb(209, 10, 10);
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+.delete:hover{
+  background-color: rgb(39, 146, 39);
+}
+.button1 {
+    padding: 5px 10px;
+    background-color: #28b849;
+    color: white;
+    border: none;
+    cursor: pointer;
+   
+}
+.button1:hover{
+  background-color: rgb(41, 177, 70);
+}
+.button10 {
+    padding: 5px 10px;
+    background-color: #b82020;
+   font-size: 15px;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-left: 400px; 
+    border-radius: 30px; 
+    
+}
+.button10:hover{
+  background-color: rgb(39, 146, 53);
+}
+
+    footer {
+      background-color: #f2f2f2;
+      padding: 10px 20px;
+      text-align: center;
+      width: 100%;
+    
+    }
+
+    .border {
+  background-color: rgb(255, 255, 255);
+  width: 2000px;
+  border: 15px solid rgb(172, 20, 20);
+  padding: 50px;
+  margin: 20px;
+}
+  </style>
+</head>
+<body>
+  
+  <div id="content" class="border">
+    <h1>To-Do List</h1>
+    <input type="text" id="taskInput" placeholder="New Task"><br>
+    
+
+    <div>
+
+   
+    <div>
+      <button class="button10" onclick="filterTasks('all')">All Tasks</button>
+      <button class="button10" onclick="filterTasks('incomplete')">Incomplete Tasks</button>
+      <button class="button10" onclick="filterTasks('completed')">Completed Tasks</button><br><br>
+  
+    </div>
+  </div>
+
+    <input type="date" id="dueDateInput"><br>
+    <input type="time" id="dueTimeInput"><br><br>
+   
+    <button class="add" id="addtask" onclick="addTask()">Add Task</button><br><br>
+    <ul id="taskList"></ul> 
+  </div>
+
+  
+  <div>
+            
+<button  class= "button1" id="logout-btn" onclick="logout()">
+  <i class="fa fa-sign-out"></i> Logout
+</button>
+  </div>
+
+  <footer>
+    &copy; All rights are reserved 
+  </footer>
+
+  <script>
+    function filterTasks(filterType) {
+      var taskList = document.getElementById("taskList");
+      var tasks = taskList.getElementsByTagName("li");
+
+      for (var i = 0; i < tasks.length; i++) {
+        var task = tasks[i];
+        var checkbox = task.querySelector("input[type='checkbox']");
+        var isCompleted = checkbox.checked;
+
+        if (filterType === 'all') {
+          task.style.display = "block"; 
+        } else if (filterType === 'incomplete') {
+          if (!isCompleted) {
+            task.style.display = "block"; 
+          } else {
+            task.style.display = "none";
+          }
+        } else if (filterType === 'completed') {
+          if (isCompleted) {
+            task.style.display = "block"; 
+          } else {
+            task.style.display = "none";
+          }
+        }
+      }
+    } 
+    function addTask() {
+      var taskInput = document.getElementById("taskInput");
+      var dueDateInput = document.getElementById("dueDateInput");
+      var dueTimeInput = document.getElementById("dueTimeInput");
+      var taskList = document.getElementById("taskList"); 
+ 
+
+      var newTask = document.createElement("li");
+      var checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+      var taskName = document.createElement("span");
+      var dueDate = document.createElement("span");
+      taskName.innerText = taskInput.value;
+      dueDate.innerText = "   Due: " + dueDateInput.value + " at " + dueTimeInput.value;
+
+      newTask.appendChild(checkbox);
+      newTask.appendChild(taskName);
+      newTask.appendChild(dueDate); 
+      var deleteButton = document.createElement("button");
+      deleteButton.innerText =   "Delete";
+      deleteButton.className="delete";
+      deleteButton.onclick = function() {
+        
+        taskList.removeChild(newTask);
+      };
+      newTask.appendChild(deleteButton);
+      
+
+      taskList.appendChild(newTask);
+
+      taskInput.value = "";
+      dueDateInput.value = "";
+  
+
+     
+    }
+    function logout() {
+     window.location.href = "login.html";
+    }
+
+  </script>
+</body>
+</html>
+
+
+        
